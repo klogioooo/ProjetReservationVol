@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Passager extends Personne {
     private String passeport;
-    private List<Reservation> reservations; // Matérialise la relation "1 à *" avec Reservation
+    private List<Reservation> reservations; 
 
     public Passager(String identifiant, String nom, String adresse, String contact, String passeport) {
         super(identifiant, nom, adresse, contact);
@@ -13,7 +13,6 @@ public class Passager extends Personne {
         this.reservations = new ArrayList<>();
     }
 
-    // Méthodes définies dans le diagramme
     public void reserverVol(Reservation reservation) {
         this.reservations.add(reservation);
     }
@@ -28,5 +27,4 @@ public class Passager extends Personne {
         }
     }
 
-    // Getters et Setters pour passeport...
 }

@@ -1,7 +1,7 @@
 package models;
 
 public class PersonnelCabine extends Employe {
-    private String qualification; // [cite: 71]
+    private String qualification; 
 
     public PersonnelCabine(String identifiant, String nom, String adresse, String contact, String numeroEmploye, String dateEmbauche, String qualification) {
         super(identifiant, nom, adresse, contact, numeroEmploye, dateEmbauche);
@@ -10,12 +10,10 @@ public class PersonnelCabine extends Employe {
 
     @Override
     public String obtenirRole() {
-        return "Personnel de Cabine"; // [cite: 93]
+        return "Personnel de Cabine"; 
     }
 
-    // Les méthodes affecterVol et obtenirVol [cite: 74, 76]
     public void affecterVol(Vol vol) { /* Logique à ajouter */ }
     public void obtenirVol() { /* Logique à ajouter */ }
 
-    // Ajoute les getters/setters pour qualification
 }

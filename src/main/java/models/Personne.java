@@ -13,12 +13,9 @@ public abstract class Personne {
         this.contact = contact;
     }
 
-    // La méthode exacte demandée dans le diagramme
     public void obtenirInfos() {
         System.out.println("Personne [ID=" + identifiant + ", Nom=" + nom + ", Adresse=" + adresse + ", Contact=" + contact + "]");
     }
 
-    // Générer ici les Getters et Setters pour ces 4 attributs...
     public String getNom() { return nom; }
-    // etc.
 }

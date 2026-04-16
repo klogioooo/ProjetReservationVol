@@ -1,8 +1,8 @@
 package models;
 
 public class Pilote extends Employe {
-    private String licence; // [cite: 70]
-    private int heuresDeVol; // [cite: 72]
+    private String licence; 
+    private int heuresDeVol; 
 
     public Pilote(String identifiant, String nom, String adresse, String contact, String numeroEmploye, String dateEmbauche, String licence, int heuresDeVol) {
         super(identifiant, nom, adresse, contact, numeroEmploye, dateEmbauche);
@@ -12,12 +12,8 @@ public class Pilote extends Employe {
 
     @Override
     public String obtenirRole() {
-        return "Pilote"; // [cite: 93]
+        return "Pilote"; 
     }
 
-    // Les méthodes affecterVol et obtenirVol seront développées avec la logique métier [cite: 73, 75]
-    public void affecterVol(Vol vol) { /* Logique à ajouter */ }
-    public void obtenirVol() { /* Logique à ajouter */ }
 
-    // Ajoute les getters/setters pour licence et heuresDeVol
 }

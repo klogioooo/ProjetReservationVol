@@ -1,51 +1,73 @@
-package main; // Ou com.isep.airline.main
+package main;
 
-import models.Passager;
-import models.Reservation;
-import services.ServicesReservations;
+import models.*;
+import services.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== DÉMARRAGE DU SYSTÈME DE RÉSERVATION ===\n");
-
-        // 1. Initialisation de notre Service (le "Moteur")
+        ServicesVols serviceLogistique = new ServicesVols();
         ServicesReservations serviceResa = new ServicesReservations();
 
-        // 2. Création d'un Passager
-        Passager marie = new Passager("P-001", "Marie Curie", "Paris", "marie@email.com", "FR-98765");
-
-        System.out.println("--- 1. Infos Passager ---");
-        marie.obtenirInfos();
-        System.out.println();
-
-        // 3. Préparation du formateur de date (une seule fois pour tout le fichier)
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        // 4. Traduction du texte en vrais objets LocalDateTime
-        LocalDateTime dateVol1 = LocalDateTime.parse("15/05/2026 08:30", format);
-        LocalDateTime dateVol2 = LocalDateTime.parse("20/06/2026 17:45", format);
+        System.out.println("========== SYSTÈME DE GESTION AÉRIENNE ==========\n");
 
-        // 5. Création des Réservations en leur donnant directement les bonnes dates
-        Reservation res1 = new Reservation("RES-10A", dateVol1, "En attente");
-        Reservation res2 = new Reservation("RES-99Z", dateVol2, "En attente");
+        System.out.println(">>> Étape 1 : Création du personnel navigant");
+        Pilote p1 = new Pilote("E001", "Thomas Pesquet", "Toulouse", "thomas@esa.fr", "STAFF-01", "01/01/2015", "ATPL-A320", 4500);
+        PersonnelCabine h1 = new PersonnelCabine("E002", "Sophie Martin", "Paris", "sophie@air.fr", "STAFF-02", "12/03/2020", "CSS-Luxe");
+        System.out.println("Équipage prêt.\n");
 
-        // 6. Utilisation du Service pour les actions métier
-        System.out.println("--- 2. Traitement des demandes ---");
-        serviceResa.creeReservation(marie, res1);
-        serviceResa.creeReservation(marie, res2);
 
-        serviceResa.validerReservation(res1);
 
-        System.out.println("\n--- 3. Bilan des réservations ---");
-        marie.obtenirReservations();
 
-        System.out.println("\n--- 4. Annulation d'un vol ---");
-        serviceResa.traiterAnnulation(marie, res2);
+        System.out.println(">>> Étape 2 : Préparation logistique");
+        Aeroport cdg = new Aeroport("Charles de Gaulle", "Paris", "CDG");
+        Aeroport jfk = new Aeroport("John F. Kennedy", "New York", "JFK");
+        
+        Avion airbus = new Avion("F-GZCP", "Airbus A320", 150);
+        System.out.println("Avion prêt : " + airbus.getModele() + " (" + airbus.getImmatriculation() + ")\n");
 
-        System.out.println("\n--- 5. Bilan Final ---");
-        marie.obtenirReservations();
+
+
+
+
+        System.out.println(">>> Étape 3 : Planification du vol AF001");
+        LocalDateTime depart = LocalDateTime.parse("18/04/2026 10:00", format);
+        LocalDateTime arrivee = LocalDateTime.parse("18/04/2026 18:30", format);
+
+        Vol volAF001 = new Vol("AF001", cdg, jfk, depart, arrivee);
+        
+        serviceLogistique.planifierVol(volAF001);
+        serviceLogistique.affecterAvionAVol(volAF001, airbus);
+        serviceLogistique.affecterEquipage(volAF001, p1);
+        serviceLogistique.affecterEquipage(volAF001, h1);
+        System.out.println();
+
+
+
+
+
+
+        System.out.println(">>> Étape 4 : Réservation passager");
+        Passager client = new Passager("P99", "Marie Curie", "Paris", "marie@curie.fr", "PASSPORT-FR-01");
+
+        Reservation resaMarie = new Reservation("RES-777", depart, "En attente");
+        serviceResa.creeReservation(client, resaMarie);
+        volAF001.ajouterReservation(resaMarie);
+        serviceResa.validerReservation(resaMarie);
+        System.out.println();
+
+
+
+
+        
+        System.out.println(">>> Étape 5 : État final du système");
+        serviceLogistique.afficherPlanning();
+        client.obtenirReservations();
+        
+        System.out.println("\n================ FIN DU TEST ================");
     }
 }
